@@ -2,11 +2,14 @@ import express from 'express';
 import mongoose from 'mongoose';
 import http from 'http';
 import { Socket } from 'net';
-// import alertRoutes from './routes/alertRoutes';
-import { fetchCryptoPrices } from './services/cryptoService';
+import alertRoutes from './routes/alertRoutes';
+import cryptRoutes from './routes/cryptRoutes';
+import userRoutes from './routes/userRoutes';
+// import { fetchCryptoPrices } from './services/cryptoService';
 // import { checkAlerts } from './services/alertService';
 import wss from './websocket/webSocket';
 import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
@@ -19,13 +22,14 @@ if (!MONGO_URI) {
   }
 
 app.use(express.json());
-// app.use('/api', alertRoutes);
+app.use(cors())
+app.use('/api/user', userRoutes);
+app.use('/api/alerts', alertRoutes)
+app.use('/api', cryptRoutes);
 
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    fetchCryptoPrices();
-    // checkAlerts();
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });

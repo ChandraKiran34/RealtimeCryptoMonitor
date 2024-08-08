@@ -1,11 +1,14 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 export const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
+  console.log(name, email, password)
 
   try {
     const user = new User({ name, email, password });

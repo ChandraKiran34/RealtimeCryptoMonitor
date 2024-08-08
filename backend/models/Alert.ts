@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 // Define an interface for the alert document
 interface IAlert extends Document {
-  userId: string;
+  userId: mongoose.Schema.Types.ObjectId;
   cryptoId: string;
   targetPrice: number;
   direction: 'above' | 'below';
@@ -13,8 +13,9 @@ interface IAlert extends Document {
 // Create the schema for the alert
 const alertSchema: Schema = new Schema({
   userId: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,  // Reference type pointing to the User model
+    ref: 'User',  // Reference to the User model
+    required:true
   },
   cryptoId: {
     type: String,

@@ -29,7 +29,7 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
 };
 
 // Routes
-router.post('/alerts', authenticate, createAlert);
+router.post('/createAlert', createAlert);
 router.get('/alerts/:userId', authenticate, getAlerts); // Adjusted to use query parameter or request.userId for filtering
 
 export default router;
